@@ -11,7 +11,12 @@ def emotion_detector(text_to_analyse):  # Define a function named emotion_detect
 
     # Parsing the JSON response from the API
     formatted_response = json.loads(response.text)
-    emotions = formatted_response['emotionPredictions'][0]['emotion']
-    max_emotion = max(emotions, key=emotions.get)
-    emotions['dominant_emotion'] = max_emotion
+
+    if response.status_code == 200:
+        emotions = formatted_response['emotionPredictions'][0]['emotion']
+        max_emotion = max(emotions, key=emotions.get)
+        emotions['dominant_emotion'] = max_emotion
+    else:
+	    emotions =  {'anger':'None'}
+    
     return emotions
